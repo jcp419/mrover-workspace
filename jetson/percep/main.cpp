@@ -47,6 +47,9 @@ int main() {
     rover_msgs::TargetList arTagsMessage;
     rover_msgs::Target* arTags = arTagsMessage.targetList;
     rover_msgs::Obstacle obstacleMessage;
+    obstacleMessage.bearing = 0; // Update LCM bearing field
+    obstacleMessage.rightBearing = 0;
+    obstacleMessage.distance = -1; // Update LCM distance field
     arTags[0].distance = mRoverConfig["ar_tag"]["default_tag_val"].GetInt();
     arTags[1].distance = mRoverConfig["ar_tag"]["default_tag_val"].GetInt();
 

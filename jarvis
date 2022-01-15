@@ -77,3 +77,5 @@ fi
 
 run_jarvis "$@"
 
+
+        exec env LD_LIBRARY_PATH="/home/mrover/.mrover/build_env/lib:/home/mrover/.mrover/build_env/lib/x86_64-linux-gnu"\

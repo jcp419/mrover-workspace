@@ -245,6 +245,7 @@ NavState SearchStateMachine::executeTurnToTarget()
 NavState SearchStateMachine::executeDriveToTarget()
 {
     // Definitely cannot find the target
+    //cout << mRover->roverStatus().leftCacheTarget().distance << " " << mRover->roverStatus().leftCacheTarget().bearing << endl;
     if( mRover->roverStatus().leftCacheTarget().distance == 
             mRoverConfig[ "navThresholds" ][ "noTargetDist" ].GetDouble() )
     {
