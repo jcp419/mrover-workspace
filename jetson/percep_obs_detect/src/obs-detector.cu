@@ -6,6 +6,8 @@ using namespace std::chrono;
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/glm.hpp>
 #include <vector>
+#include "writer.h"
+#include <chrono>
 
 ObsDetector::ObsDetector(DataSource source, OperationMode mode, ViewerType viewerType) : source(source), mode(mode), viewerType(viewerType), record(false)
 {
@@ -13,7 +15,9 @@ ObsDetector::ObsDetector(DataSource source, OperationMode mode, ViewerType viewe
 
     //Init data stream from source
     if(source == DataSource::ZED) {
-        zed.open(init_params); 
+        auto error = zed.open(init_params); 
+        // std::cout << error << std::endl;
+        // exit(1);
         auto camera_config = zed.getCameraInformation(cloud_res).camera_configuration;
         defParams = camera_config.calibration_parameters.left_cam;
     } else if(source == DataSource::FILESYSTEM) {
@@ -58,9 +62,9 @@ void ObsDetector::setupParamaters(std::string parameterFile) {
 
     //Obs Detecting Algorithm Params
     passZ = new PassThrough('z', 100, 7000); //7000
-    ransacPlane = new RansacPlane(make_float3(0, 1, 0), 8, 600, 80, cloud_res.area(), 80);
+    ransacPlane = new RansacPlane(make_float3(0, 1, 0), 8, 600, 60, cloud_res.area(), 400);
     voxelGrid = new VoxelGrid(10);
-    ece = new EuclideanClusterExtractor(300, 30, 0, cloud_res.area(), 9); 
+    ece = new EuclideanClusterExtractor(100, 30, 0, cloud_res.area(), 9); 
     findClear = new FindClearPath();
 }
         
@@ -73,6 +77,9 @@ void ObsDetector::update() {
         zed.grab();
         zed.retrieveMeasure(frame, sl::MEASURE::XYZRGBA, sl::MEM::GPU, cloud_res); 
         getRawCloud(pc, frame);
+        PCDWriter writer;
+        ++writer.counter;
+        writer.writeCloud(std::string("pcl").append(std::to_string(writer.counter).append(".pcl")), pc, 320, 180);
         
     } else if(source == DataSource::FILESYSTEM) {
         pc = fileReader.readCloudGPU(viewer.frame);
@@ -87,10 +94,12 @@ void ObsDetector::update() {
 void ObsDetector::update(GPU_Cloud pc) {
 
     // Get a copy if debug is enabled
-    viewer.updatePointCloud(pc);
+    //viewer.updatePointCloud(pc);
 
     // Processing
-    
+    viewer.updatePointCloud(pc);
+
+    /*
     passZ->run(pc);
     
     ransacPlane->computeModel(pc);    
@@ -104,7 +113,8 @@ void ObsDetector::update(GPU_Cloud pc) {
     leftBearing = bearingCombined.x;
     rightBearing = bearingCombined.y;
     distance = bearingCombined.z; 
-    
+    viewer.updatePointCloud(pc);*/
+
     ///*/
     // Rendering
     if(mode != OperationMode::SILENT) {
@@ -220,7 +230,7 @@ void ObsDetector::spinViewer() {
 
 
 int main() {
-    ObsDetector obs(DataSource::ZED, OperationMode::DEBUG, ViewerType::GL);
+    ObsDetector obs(DataSource::FILESYSTEM, OperationMode::DEBUG, ViewerType::GL);
 
     //std::thread updateTick( [&]{while(true) { obs.update();} });
 

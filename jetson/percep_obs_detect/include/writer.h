@@ -16,6 +16,8 @@ public:
     PCDWriter() {
     }
 
+    int counter = 0;
+
     void writeCloud(string filename, GPU_Cloud gpu_pc, int width, int height) {
         ofstream fout(filename);
         if (!fout.is_open()) cerr << "Could not open file!" << endl;

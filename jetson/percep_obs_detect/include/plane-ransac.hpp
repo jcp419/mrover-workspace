@@ -1,6 +1,7 @@
 #pragma once
 #include "common.hpp"
 
+
 /** 
  * \class Plane
  * \brief Defines the found plane by 3 points
