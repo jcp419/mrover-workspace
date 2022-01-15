@@ -1,0 +1,64 @@
+Phoenix already installed, skipping.
+RapidJson already installed, skipping.
+LCM already installed, skipping.
+pip dependencies already installed, skipping.
+Done.
+- building dependency rover_common
+Building Python 3 package
+rover_common unchanged, skipping.
+Done
+- building dependency lcm_tools/common
+- building dependency rover_msgs
+Building LCM package
+rover_msgs unchanged, skipping.
+Done
+Building Python 3 package
+lcm_tools/common unchanged, skipping.
+Done
+Building Python 3 package
+lcm_tools/echo unchanged, skipping.
+Done
+Launching nav
+- building dependency rover_msgs
+Building LCM package
+rover_msgs unchanged, skipping.
+Done
+- building dependency config/nav
+Building config package
+config/nav unchanged, skipping.
+Done
+Building C++ package
+jetson/nav unchanged, skipping.
+Done
+Launching loc
+- building dependency rover_msgs
+Building LCM package
+rover_msgs unchanged, skipping.
+Done
+- building dependency rover_common
+Building Python 3 package
+rover_common unchanged, skipping.
+Done
+- building dependency config/gps
+Building config package
+config/gps unchanged, skipping.
+Done
+Building Python 3 package
+jetson/gps unchanged, skipping.
+Done
+- building dependency rover_msgs
+Building LCM package
+rover_msgs unchanged, skipping.
+Done
+- building dependency rover_common
+Building Python 3 package
+rover_common unchanged, skipping.
+Done
+- building dependency config/filter
+Building config package
+config/filter unchanged, skipping.
+Done
+Building Python 3 package
+jetson/filter unchanged, skipping.
+Done
+error: unrecognized language ''
